@@ -1,4 +1,7 @@
 package test.MOAIS.user;
 
-public class UserService {
+import test.MOAIS.user.request.UserSingUpReq;
+
+public interface UserService {
+    int signUp(UserSingUpReq userSingUpReq);
 }

@@ -1,10 +1,12 @@
 package test.MOAIS.user;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import org.hibernate.annotations.Comment;
 
 @Entity
 @Table
+@Builder
 public class Users {
 
     @Id
