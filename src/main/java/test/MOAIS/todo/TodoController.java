@@ -8,6 +8,7 @@ import test.MOAIS.common.exception.CustomException;
 import test.MOAIS.todo.dto.TodoInterface;
 import test.MOAIS.todo.request.TodoRegisReq;
 import test.MOAIS.todo.request.TodoUpdateStateReq;
+import test.MOAIS.todo.response.TodoRegisRes;
 import test.MOAIS.user.request.UserSingUpReq;
 
 import java.util.List;
@@ -21,9 +22,10 @@ public class TodoController {
 
     @ResponseBody
     @PostMapping("")
-    public ResponseEntity<Todo> regis(@RequestBody TodoRegisReq todoRegisReq) {
+    public ResponseEntity<TodoRegisRes> regis(@RequestBody TodoRegisReq todoRegisReq) {
         Todo todo = todoService.regis(todoRegisReq);
-        return new ResponseEntity<>(todo, HttpStatus.OK);
+        TodoRegisRes todoRegisRes = new TodoRegisRes(todo);
+        return new ResponseEntity<>(todoRegisRes, HttpStatus.OK);
     }
 
     @ResponseBody

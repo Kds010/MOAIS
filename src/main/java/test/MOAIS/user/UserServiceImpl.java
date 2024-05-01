@@ -50,9 +50,9 @@ public class UserServiceImpl implements UserService {
             throw new CustomException("already using nickname", HttpStatus.CONFLICT);
         }
 
-//        Authority authority = Authority.builder()
-//                .authorityName("ROLE_USER")
-//                .build();
+        Authority authority = Authority.builder()
+                .authorityName("ROLE_USER")
+                .build();
         String encodedPassword = passwordEncoder.encode(userSingUpReq.getPassword());
 
         Users newUsers = Users.builder()
@@ -60,7 +60,7 @@ public class UserServiceImpl implements UserService {
                 .nickname(userSingUpReq.getNickname())
                 .password(encodedPassword)
 //                .password(userSingUpReq.getPassword())
-//                .authorities(Collections.singleton(authority))
+                .authorities(Collections.singleton(authority))
                 .build();
 
         userRepository.save(newUsers);
