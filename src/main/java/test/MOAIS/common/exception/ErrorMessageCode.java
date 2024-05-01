@@ -12,7 +12,4 @@ public enum ErrorMessageCode {
 
     private int codeValue;
     private String responseValue;
-
-//    public int getCode() { return codeValue; }
-//    public String getResponseValue() { return responseValue; }
 }

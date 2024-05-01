@@ -15,6 +15,8 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+//import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+//import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -44,6 +46,8 @@ public class SecurityConfig {
                                 .requestMatchers(PathRequest.toH2Console()).permitAll()
                                 .requestMatchers("/user/auth").permitAll()
                                 .requestMatchers("/user").permitAll()
+                                .requestMatchers("/loginStateTest").permitAll()
+                                .requestMatchers("/error").permitAll()
                                 .anyRequest().authenticated()
                 )
 //                .exceptionHandling((exceptionConfig) ->

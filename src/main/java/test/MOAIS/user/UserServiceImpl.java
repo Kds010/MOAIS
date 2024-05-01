@@ -68,20 +68,9 @@ public class UserServiceImpl implements UserService {
     }
 
     public String auth(UserLoginReq userLoginReq) throws CustomException {
-//        Users users = userRepository.findByUserId(userLoginReq.getUserId()).orElseThrow(() -> new CustomException("user not found", HttpStatus.NO_CONTENT));
-//        // 비밀번호 암호화 복호화
-//        if(!users.getPassword().equals(userLoginReq.getPassword())){
-//            throw new CustomException("password mismatch", HttpStatus.BAD_REQUEST);
-//        }
-
-//        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(users.getUserId(), users.getPassword());
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userLoginReq.getUserId(), userLoginReq.getPassword());
-
-        // authenticate 메소드가 실행이 될 때 CustomUserDetailsService class의 loadUserByUsername 메소드가 실행
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-        // 해당 객체를 SecurityContextHolder에 저장하고
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        // authentication 객체를 createToken 메소드를 통해서 JWT Token을 생성
         String jwt = tokenProvider.createToken(authentication);
 
         return jwt;
