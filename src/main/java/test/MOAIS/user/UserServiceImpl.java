@@ -4,8 +4,22 @@ import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import test.MOAIS.common.exception.CustomException;
+import test.MOAIS.common.exception.ErrorResult;
+import test.MOAIS.common.security.JwtFilter;
+import test.MOAIS.common.security.TokenProvider;
+import test.MOAIS.user.request.UserLoginReq;
 import test.MOAIS.user.request.UserSingUpReq;
+import test.MOAIS.user.response.authTokenRes;
 
 import java.util.Optional;
 
@@ -15,11 +29,21 @@ public class UserServiceImpl implements UserService {
 
     private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
     private final UserRepository userRepository;
+    private final TokenProvider tokenProvider;
+    private final AuthenticationManagerBuilder authenticationManagerBuilder;
 
     @Transactional
-    public int signUp(UserSingUpReq userSingUpReq){
+    public int signUp(UserSingUpReq userSingUpReq) {
         Optional<Users> users = userRepository.findByUserId(userSingUpReq.getUserId());
-        if(users.isPresent()) { log.info("이미 가입된 회원 아이디입니다."); return 0; }
+        if(users.isPresent()) {
+//            log.info("already signUp Id"); return 0;
+            throw new CustomException("already signUp Id", HttpStatus.CONFLICT);
+        }
+        users = userRepository.findByNickName(userSingUpReq.getNickName());
+        if(users.isPresent()) {
+//            log.info("already using nickname"); return 2;
+            throw new CustomException("already using nickname", HttpStatus.CONFLICT);
+        }
 
         Users newUsers = Users.builder()
                 .userId(userSingUpReq.getUserId())
@@ -29,5 +53,26 @@ public class UserServiceImpl implements UserService {
 
         userRepository.save(newUsers);
         return 1;
+    }
+
+    public String auth(UserLoginReq userLoginReq) throws CustomException {
+        Users users = userRepository.findByUserId(userLoginReq.getUserId()).orElseThrow(() -> new CustomException("user not found", HttpStatus.NO_CONTENT));
+        // 비밀번호 암호화 복호화
+        if(!users.getPassWord().equals(userLoginReq.getPassWord())){
+            throw new CustomException("password mismatch", HttpStatus.BAD_REQUEST);
+        }
+
+        UsernamePasswordAuthenticationToken authenticationToken =
+                new UsernamePasswordAuthenticationToken(userLoginReq.getUserId(), userLoginReq.getPassWord());
+
+        // authenticate 메소드가 실행이 될 때 CustomUserDetailsService class의 loadUserByUsername 메소드가 실행
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        // 해당 객체를 SecurityContextHolder에 저장하고
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+        // authentication 객체를 createToken 메소드를 통해서 JWT Token을 생성
+        String jwt = tokenProvider.createToken(authentication);
+//        String jwt = "";
+
+        return jwt;
     }
 }

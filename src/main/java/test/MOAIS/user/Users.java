@@ -1,11 +1,17 @@
 package test.MOAIS.user;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
 
 @Entity
 @Table
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Users {
 
@@ -18,6 +24,7 @@ public class Users {
     private String userId;
 
     @Comment("유저 닉네임")
+    @Column(unique = true)
     private String nickName;
 
     @Comment("유저 비밀번호")
