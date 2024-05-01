@@ -41,12 +41,10 @@ public class UserServiceImpl implements UserService {
     public int signUp(UserSingUpReq userSingUpReq) {
         Optional<Users> users = userRepository.findByUserId(userSingUpReq.getUserId());
         if(users.isPresent()) {
-//            log.info("already signUp Id"); return 0;
             throw new CustomException("already signUp Id", HttpStatus.CONFLICT);
         }
         users = userRepository.findByNickname(userSingUpReq.getNickname());
         if(users.isPresent()) {
-//            log.info("already using nickname"); return 2;
             throw new CustomException("already using nickname", HttpStatus.CONFLICT);
         }
 
@@ -59,7 +57,6 @@ public class UserServiceImpl implements UserService {
                 .userId(userSingUpReq.getUserId())
                 .nickname(userSingUpReq.getNickname())
                 .password(encodedPassword)
-//                .password(userSingUpReq.getPassword())
                 .authorities(Collections.singleton(authority))
                 .build();
 

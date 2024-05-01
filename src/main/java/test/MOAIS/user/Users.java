@@ -34,7 +34,6 @@ public class Users implements UserDetails {
     private String userId;
 
     @Comment("유저 닉네임")
-    @Column(unique = true)
     private String nickname;
 
     @Comment("유저 비밀번호")
