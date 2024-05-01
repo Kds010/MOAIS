@@ -5,5 +5,5 @@ import lombok.Getter;
 @Getter
 public class UserLoginReq {
     private String userId;
-    private String passWord;
+    private String password;
 }

@@ -5,6 +5,6 @@ import lombok.Getter;
 @Getter
 public class UserSingUpReq {
     private String userId;
-    private String nickName;
-    private String passWord;
+    private String nickname;
+    private String password;
 }
