@@ -13,7 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import test.MOAIS.auth.Authority;
+//import test.MOAIS.auth.Authority;
 import test.MOAIS.common.exception.CustomException;
 import test.MOAIS.common.exception.ErrorResult;
 //import test.MOAIS.common.security.JwtFilter;
@@ -48,15 +48,15 @@ public class UserServiceImpl implements UserService {
             throw new CustomException("already using nickname", HttpStatus.CONFLICT);
         }
 
-        Authority authority = Authority.builder()
-                .authorityName("ROLE_USER")
-                .build();
+//        Authority authority = Authority.builder()
+//                .authorityName("ROLE_USER")
+//                .build();
 
         Users newUsers = Users.builder()
                 .userId(userSingUpReq.getUserId())
                 .nickname(userSingUpReq.getNickname())
                 .password(userSingUpReq.getPassword())
-                .authorities(Collections.singleton(authority))
+//                .authorities(Collections.singleton(authority))
                 .build();
 
         userRepository.save(newUsers);

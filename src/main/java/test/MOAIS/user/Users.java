@@ -6,8 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Comment;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import test.MOAIS.auth.Authority;
+//import org.springframework.security.crypto.password.PasswordEncoder;
+//import test.MOAIS.auth.Authority;
 
 import java.util.Set;
 
@@ -35,12 +35,12 @@ public class Users {
     @Comment("유저 비밀번호")
     private String password;
 
-    @ManyToMany
-    @JoinTable(
-            name = "user_authority",
-            joinColumns = {@JoinColumn(name = "id", referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
-    private Set<Authority> authorities;
+//    @ManyToMany
+//    @JoinTable(
+//            name = "user_authority",
+//            joinColumns = {@JoinColumn(name = "id", referencedColumnName = "id")},
+//            inverseJoinColumns = {@JoinColumn(name = "authority_name", referencedColumnName = "authority_name")})
+//    private Set<Authority> authorities;
 
     //== 패스워드 암호화 ==//
 //    public void encodePassword(PasswordEncoder passwordEncoder){
