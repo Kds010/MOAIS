@@ -1,10 +1,8 @@
 package test.MOAIS.user;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.Comment;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -39,6 +37,10 @@ public class Users implements UserDetails {
     @Comment("유저 비밀번호")
     private String password;
 
+    @Comment("유저 탈퇴 여부 F=0, T=1")
+    @ColumnDefault("0")
+    @Setter
+    private boolean deleted;
 
     @ManyToMany
     @JoinTable(

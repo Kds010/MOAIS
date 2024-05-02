@@ -46,4 +46,12 @@ public class UserController {
     public String test() {
         return SecurityUtil.getCurrentUsername();
     }
+
+    @ResponseBody
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteUser(@PathVariable Long id) {
+        String userId = SecurityUtil.getCurrentUsername();
+        userService.deleteUser(id, userId);
+        return new ResponseEntity<>("회원 탈퇴", HttpStatus.OK);
+    }
 }

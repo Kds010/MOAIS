@@ -7,4 +7,5 @@ import test.MOAIS.user.request.UserSingUpReq;
 public interface UserService {
     int signUp(UserSingUpReq userSingUpReq);
     String auth(UserLoginReq userLoginReq) throws CustomException;
+    void deleteUser(Long id, String userId);
 }
